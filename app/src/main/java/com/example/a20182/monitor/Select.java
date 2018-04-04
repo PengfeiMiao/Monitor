@@ -21,7 +21,7 @@ public class Select extends AppCompatActivity implements AdapterView.OnItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select);
 
-        mListView = (ListView) findViewById(R.id.lv_select);
+        mListView = findViewById(R.id.lv_select);
         mListView.setOnItemClickListener(this);
         mApps = MainActivity.AppList;
         mAdapter = new SelectAdapter(this, mApps);

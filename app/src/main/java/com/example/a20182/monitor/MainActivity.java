@@ -12,10 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
-
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.provider.Settings;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static boolean flags_timer = false;
     public static boolean flags_refresh = false;
 
-    Timer timer0=new Timer();
+    Timer timer0 = new Timer();
     final TimerTask task0 = new TimerTask() {
         @Override
         public void run() {
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 @Override
                 public void run() {
                     mListView.setAdapter(mAdapter);
-                    if(flags_refresh) {
+                    if (flags_refresh) {
                         startActivity(new Intent(MainActivity.this, MainActivity.class));
                         flags_refresh = false;
                     }
@@ -48,35 +48,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             });
         }
     };
-    public static boolean isStartAccessibilityService(Context context, String name){
+
+    public static boolean isStartAccessibilityService(Context context, String name) {
         AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
         List<AccessibilityServiceInfo> serviceInfos = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);
-        for (AccessibilityServiceInfo info : serviceInfos)
-        { ;
+        for (AccessibilityServiceInfo info : serviceInfos) {
+            ;
             if (info.getId().contains(name)) {
                 return true;
             }
-        } return false;
+        }
+        return false;
     }
+
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(!isStartAccessibilityService(this,"monitor"))
-        {
-             Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-             startActivity(intent);
+        if (!isStartAccessibilityService(this, "monitor")) {
+            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+            startActivity(intent);
         }
 
-        mListView = (ListView) findViewById(R.id.lv_monitor);
+        mListView =  findViewById(R.id.lv_monitor);
         mListView.setOnItemClickListener(this);
         if (AppList.isEmpty()) {
             loadAppInfomation(this);
         }
         mApps = getSelectList(AppList);
         mAdapter = new AppAdapter(this, mApps);
-        timer0.schedule(task0,0,1000);
+        timer0.schedule(task0, 0, 1000);
 
     }
 
@@ -86,9 +88,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> infos = pm.queryIntentActivities(intent, 0);
         Collections.sort(infos, new ResolveInfo.DisplayNameComparator(pm));
-        if(infos != null) {
+        if (infos != null) {
             AppList.clear();
-            for(int i=0; i<infos.size(); i++) {
+            for (int i = 0; i < infos.size(); i++) {
                 Application app = new Application();
                 ResolveInfo info = infos.get(i);
                 app.setName(info.loadLabel(pm).toString());
@@ -103,10 +105,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private List<Application> getSelectList(List<Application> AppList) {
         List<Application> selectList = new ArrayList<Application>();
-        for(int i=0;i<AppList.size();i++)
-        {
-            if(AppList.get(i).getSelected())
-            {
+        for (int i = 0; i < AppList.size(); i++) {
+            if (AppList.get(i).getSelected()) {
                 selectList.add(AppList.get(i));
             }
         }
@@ -114,40 +114,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     }
 
-    public void btnAdd(View view){
+    public void btnAdd(View view) {
         startActivity(new Intent(MainActivity.this, Select.class));
     }
 
-    public void btnRenew(View view){
-        for(int i=0;i<mApps.size();i++) {
+    public void btnRenew(View view) {
+        for (int i = 0; i < mApps.size(); i++) {
             mApps.get(i).setRuntime(0);
             mApps.get(i).setIsRun(false);
         }
         mListView.setAdapter(mAdapter);
     }
 
-    public void btnAuto(View view){
+    public void btnAuto(View view) {
         flags_auto = !flags_auto;
         ImageView iv_Auto = findViewById(R.id.iv_auto);
-        if(!flags_auto) {
-             iv_Auto.setImageResource(R.drawable.auto);
-        }else
-        {
+        if (!flags_auto) {
+            iv_Auto.setImageResource(R.drawable.auto);
+        } else {
             iv_Auto.setImageResource(R.drawable.auto_press);
         }
     }
 
-    public void btnTimer(View view){
+    public void btnTimer(View view) {
         flags_timer = !flags_timer;
         ImageView iv_Auto = findViewById(R.id.iv_timer);
-        if(!flags_timer) {
+        if (!flags_timer) {
             iv_Auto.setImageResource(R.drawable.timer);
-        }else
-        {
+        } else {
             iv_Auto.setImageResource(R.drawable.timer_press);
         }
     }

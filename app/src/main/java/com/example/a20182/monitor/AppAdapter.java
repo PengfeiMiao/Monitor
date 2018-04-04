@@ -4,8 +4,6 @@ package com.example.a20182.monitor;
  * Created by 20182 on 2018/3/30.
  */
 
-
-
 import java.util.List;
 
 import android.content.Context;
@@ -48,10 +46,10 @@ public class AppAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.monitor_item, null);
-            holder.icon = (ImageView) convertView.findViewById(R.id.app_image);
-            holder.name = (TextView) convertView.findViewById(R.id.app_name);
-            holder.runtime = (TextView) convertView.findViewById(R.id.app_time);
-            holder.maxtime = (TextView) convertView.findViewById(R.id.app_maxtime);
+            holder.icon = convertView.findViewById(R.id.app_image);
+            holder.name = convertView.findViewById(R.id.app_name);
+            holder.runtime = convertView.findViewById(R.id.app_time);
+            holder.maxtime = convertView.findViewById(R.id.app_maxtime);
 
             convertView.setTag(holder);
         } else {
@@ -62,13 +60,12 @@ public class AppAdapter extends BaseAdapter {
         holder.runtime.setText("    run:" + toTime(apps.get(position).getRuntime()));
         holder.maxtime.setText("  max:" + toTime(apps.get(position).getLimiTime()));
 
-        Button btn=convertView.findViewById(R.id.btn_del);
-
-        btn.setOnClickListener(new View.OnClickListener(){
+        Button btn = convertView.findViewById(R.id.btn_del);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                for(int i=0;i<MainActivity.AppList.size();i++) {
-                    if(MainActivity.AppList.get(i).getName().equals(apps.get(position).getName())){
+            public void onClick(View v) {
+                for (int i = 0; i < MainActivity.AppList.size(); i++) {
+                    if (MainActivity.AppList.get(i).getName().equals(apps.get(position).getName())) {
                         MainActivity.AppList.get(i).setSelected(false);
                         MainActivity.AppList.get(i).setIsRun(false);
                         MainActivity.AppList.get(i).setRuntime(0);
@@ -87,11 +84,11 @@ public class AppAdapter extends BaseAdapter {
 
     private String toTime(int seconds) {
 
-        int h = seconds/3600;
-        int m = (seconds%3600)/60;
-        int s = (seconds%3600)%60;
+        int h = seconds / 3600;
+        int m = (seconds % 3600) / 60;
+        int s = (seconds % 3600) % 60;
 
-        String startDateStr = String.format("%02d",h)+ ":" + String.format("%02d",m) + ":" + String.format("%02d",s);
+        String startDateStr = String.format("%02d", h) + ":" + String.format("%02d", m) + ":" + String.format("%02d", s);
 
         return startDateStr;
     }

@@ -17,8 +17,8 @@ public class CustomToast {
         //load layout
         View toastRoot = LayoutInflater.from(context).inflate(R.layout.toast, null);
         //init
-        mTextView = (TextView) toastRoot.findViewById(R.id.message);
-        mImageView = (ImageView) toastRoot.findViewById(R.id.imageView);
+        mTextView =  toastRoot.findViewById(R.id.message);
+        mImageView =  toastRoot.findViewById(R.id.imageView);
         //settings
         mTextView.setText(message);
         mImageView.setImageResource(R.drawable.alert);
@@ -28,7 +28,6 @@ public class CustomToast {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int height = wm.getDefaultDisplay().getHeight();
         //Toast.Y = screen.height*1/3
-
         toastStart.setGravity(Gravity.TOP, 0, height / 3);
         toastStart.setDuration(Toast.LENGTH_LONG);
         toastStart.setView(toastRoot);

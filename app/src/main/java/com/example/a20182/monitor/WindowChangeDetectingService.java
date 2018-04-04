@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
+
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.Toast;
 
@@ -13,7 +14,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class WindowChangeDetectingService extends AccessibilityService {
-
     public static int position = -1;
 
     final Timer timer = new Timer();
@@ -24,14 +24,16 @@ public class WindowChangeDetectingService extends AccessibilityService {
                 if (MainActivity.mApps.get(position).getIsRun()) {
                     MainActivity.mApps.get(position).setRuntime(MainActivity.mApps.get(position).getRuntime() + 1);
 
-                    if(MainActivity.flags_timer&&MainActivity.mApps.get(position).getRuntime()%10==0){
+                    if (MainActivity.flags_timer && MainActivity.mApps.get(position).getRuntime() % 10 == 0) {
                         handler_timer.sendEmptyMessage(0);
                     }
                     if (MainActivity.mApps.get(position).getRuntime() >= MainActivity.mApps.get(position).getLimiTime()
                             && MainActivity.mApps.get(position).getLimiTime() != 0) {
                         handler.sendEmptyMessage(0);
                         MainActivity.mApps.get(position).setIsRun(false);
-                        if(MainActivity.flags_auto){MainActivity.mApps.get(position).setRuntime(0);}
+                        if (MainActivity.flags_auto) {
+                            MainActivity.mApps.get(position).setRuntime(0);
+                        }
                     }
                 }
             }
@@ -61,15 +63,13 @@ public class WindowChangeDetectingService extends AccessibilityService {
                 for (int i = 0; i < MainActivity.mApps.size(); i++) {
                     if (componentName.getPackageName().contains("monitor")) {
                         MainActivity.mApps.get(i).setIsRun(false);
-                    }
-                    else if (MainActivity.mApps.get(i).getIntent().getPackageName().equals(componentName.getPackageName())){
+                    } else if (MainActivity.mApps.get(i).getIntent().getPackageName().equals(componentName.getPackageName())) {
                         MainActivity.mApps.get(i).setIsRun(true);
                         position = i;
-                    }
-                    else if(i == MainActivity.mApps.size()-1){
+
+                    } else if (i == MainActivity.mApps.size() - 1) {
                         position = -1;
                     }
-
 
                 }
             }
@@ -77,14 +77,14 @@ public class WindowChangeDetectingService extends AccessibilityService {
         }
     }
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             CustomToast.showToast(getApplicationContext(), MainActivity.mApps.get(position).getTips());
         }
     };
 
-    private Handler handler_timer = new Handler(){
+    private Handler handler_timer = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Toast.makeText(getApplicationContext(), toTime(MainActivity.mApps.get(position).getRuntime()), Toast.LENGTH_SHORT).show();
@@ -93,11 +93,11 @@ public class WindowChangeDetectingService extends AccessibilityService {
 
     private String toTime(int seconds) {
 
-        int h = seconds/3600;
-        int m = (seconds%3600)/60;
-        int s = (seconds%3600)%60;
+        int h = seconds / 3600;
+        int m = (seconds % 3600) / 60;
+        int s = (seconds % 3600) % 60;
 
-        String startDateStr = String.format("%02d",h)+ ":" + String.format("%02d",m) + ":" + String.format("%02d",s);
+        String startDateStr = String.format("%02d", h) + ":" + String.format("%02d", m) + ":" + String.format("%02d", s);
 
         return startDateStr;
     }
@@ -111,6 +111,7 @@ public class WindowChangeDetectingService extends AccessibilityService {
     }
 
     @Override
-    public void onInterrupt() {}
+    public void onInterrupt() {
+    }
 
 }

@@ -11,13 +11,14 @@ import android.widget.RelativeLayout;
 
 import static android.content.ContentValues.TAG;
 
-public class DragView extends RelativeLayout implements View.OnClickListener{
-    private View fgView , bgView;
+public class DragView extends RelativeLayout implements View.OnClickListener {
+    private View fgView, bgView;
     private ViewDragHelper mDrager;
     private DragStateListener mDragStateListener;
-    private final int DRAG_LEFT = -1 , DRAG_RIGHT = 1;
+    private final int DRAG_LEFT = -1, DRAG_RIGHT = 1;
     private int dragMode = DRAG_LEFT;
-    private float minX , maxX;
+    private float minX, maxX;
+
     public DragView(Context context) {
         super(context);
     }
@@ -50,7 +51,7 @@ public class DragView extends RelativeLayout implements View.OnClickListener{
             @Override
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
                 super.onViewReleased(releasedChild, xvel, yvel);
-                if(Math.abs(fgView.getLeft()) != 0 || Math.abs(fgView.getLeft()) != bgView.getMeasuredWidth()){
+                if (Math.abs(fgView.getLeft()) != 0 || Math.abs(fgView.getLeft()) != bgView.getMeasuredWidth()) {
                     float x = fgView.getLeft() + 0.1f * xvel;
                     mDrager.smoothSlideViewTo(fgView,
                             Math.abs(getPositionX(x)) > bgView.getMeasuredWidth() / 2 ? bgView.getMeasuredWidth() * dragMode : 0, 0);
@@ -62,12 +63,12 @@ public class DragView extends RelativeLayout implements View.OnClickListener{
             @Override
             public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
                 super.onViewPositionChanged(changedView, left, top, dx, dy);
-                if(changedView == fgView)
+                if (changedView == fgView)
                     getParent().requestDisallowInterceptTouchEvent(fgView.getLeft() != 0 ? true : false);
-                if(mDragStateListener != null){
-                    if(left == 0){
+                if (mDragStateListener != null) {
+                    if (left == 0) {
                         mDragStateListener.onClosed(DragView.this);
-                    }else if(Math.abs(left) == bgView.getMeasuredWidth()){
+                    } else if (Math.abs(left) == bgView.getMeasuredWidth()) {
                         mDragStateListener.onOpened(DragView.this);
                     }
                 }
@@ -75,14 +76,15 @@ public class DragView extends RelativeLayout implements View.OnClickListener{
         });
     }
 
-    public void closeAnim(){
+    public void closeAnim() {
         mDrager.smoothSlideViewTo(fgView, 0, 0);
         postInvalidate();
     }
 
-    public boolean isOpen(){
+    public boolean isOpen() {
         return Math.abs(fgView.getLeft()) == bgView.getMeasuredWidth();
     }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -92,44 +94,46 @@ public class DragView extends RelativeLayout implements View.OnClickListener{
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         //drag range
-        if(dragMode == DRAG_LEFT){
+        if (dragMode == DRAG_LEFT) {
             minX = -bgView.getMeasuredWidth();
             maxX = 0;
-        }else{
+        } else {
             minX = 0;
             maxX = bgView.getMeasuredWidth();
         }
     }
-    private int getPositionX(float x){
-        if(x < minX) x = minX;
-        if(x > maxX) x = maxX;
+
+    private int getPositionX(float x) {
+        if (x < minX) x = minX;
+        if (x > maxX) x = maxX;
         return (int) x;
     }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        if(getChildCount() != 2)
+        if (getChildCount() != 2)
             throw new IllegalArgumentException("must contain only two child view");
         fgView = getChildAt(1);
         bgView = getChildAt(0);
-        if(!(fgView instanceof ViewGroup && bgView instanceof ViewGroup))
+        if (!(fgView instanceof ViewGroup && bgView instanceof ViewGroup))
             throw new IllegalArgumentException("ForegroundView and BackgoundView must be a subClass of ViewGroup");
-        RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams)bgView.getLayoutParams();
+        RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) bgView.getLayoutParams();
         param.addRule(dragMode == DRAG_LEFT ? RelativeLayout.ALIGN_PARENT_RIGHT : RelativeLayout.ALIGN_PARENT_LEFT);
         param.width = LayoutParams.WRAP_CONTENT;
 
         //bind onClick Event
         fgView.setOnClickListener(this);
-        int bgViewCount = ((ViewGroup)bgView).getChildCount();
+        int bgViewCount = ((ViewGroup) bgView).getChildCount();
         for (int i = 0; i < bgViewCount; i++) {
             View child = ((ViewGroup) bgView).getChildAt(i);
-            if(child.isClickable()) child.setOnClickListener(this);
+            if (child.isClickable()) child.setOnClickListener(this);
         }
     }
 
     @Override
     public void computeScroll() {
-        if(mDrager.continueSettling(true)){
+        if (mDrager.continueSettling(true)) {
             postInvalidate();
         }
     }
@@ -137,23 +141,26 @@ public class DragView extends RelativeLayout implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if(mDragStateListener != null) {
-            if(v == fgView){
-                if(isOpen()){
+        if (mDragStateListener != null) {
+            if (v == fgView) {
+                if (isOpen()) {
                     closeAnim();
                     return;
                 }
-                mDragStateListener.onForegroundViewClick(DragView.this , v);
-            }else {
-                mDragStateListener.onBackgroundViewClick(DragView.this , v);
+                mDragStateListener.onForegroundViewClick(DragView.this, v);
+            } else {
+                mDragStateListener.onBackgroundViewClick(DragView.this, v);
             }
         }
     }
 
-    public interface DragStateListener{
+    public interface DragStateListener {
         void onOpened(DragView dragView);
+
         void onClosed(DragView dragView);
+
         void onForegroundViewClick(DragView dragView, View v);
+
         void onBackgroundViewClick(DragView dragView, View v);
     }
 

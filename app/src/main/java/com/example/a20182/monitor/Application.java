@@ -18,15 +18,16 @@ public class Application {
     private boolean isSelected;
 
     //无参构造函数
-    public Application(){}
+    public Application() {
+    }
 
     //有参构造函数
-    public Application(String name,Drawable icon,ComponentName intent,int runtime,boolean isSelected){
-        this.name=name;
-        this.icon=icon;
-        this.intent=intent;
-        this.runtime=runtime;
-        this.isSelected=isSelected;
+    public Application(String name, Drawable icon, ComponentName intent, int runtime, boolean isSelected) {
+        this.name = name;
+        this.icon = icon;
+        this.intent = intent;
+        this.runtime = runtime;
+        this.isSelected = isSelected;
     }
 
     public String getName() {
@@ -45,11 +46,11 @@ public class Application {
         this.icon = icon;
     }
 
-    public ComponentName getIntent () {
+    public ComponentName getIntent() {
         return intent;
     }
 
-    public void setIntent (ComponentName intent) {
+    public void setIntent(ComponentName intent) {
         this.intent = intent;
     }
 
