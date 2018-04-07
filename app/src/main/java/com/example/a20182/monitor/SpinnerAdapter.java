@@ -1,18 +1,17 @@
 package com.example.a20182.monitor;
 
-import java.util.List;
+/**
+ * The Adapter for the Spinner in MainActivity
+ * Import the spinner_item layout into spinner
+ * which I use as a select menu.
+ */
+
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import static android.content.ContentValues.TAG;
-
 
 public class SpinnerAdapter extends BaseAdapter {
     private int[] mList;

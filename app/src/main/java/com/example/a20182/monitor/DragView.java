@@ -1,15 +1,17 @@
 package com.example.a20182.monitor;
 
+/*
+ *This DragView is to make the monitor_item be able to slide to show the delete button.
+ * It use the RelativeLayout to deny to front view and mae it can be listened.
+ */
+
 import android.content.Context;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
-import static android.content.ContentValues.TAG;
 
 public class DragView extends RelativeLayout implements View.OnClickListener{
     private View fgView , bgView;
@@ -36,7 +38,6 @@ public class DragView extends RelativeLayout implements View.OnClickListener{
                 return bgView.getMeasuredWidth();
             }
 
-
             @Override
             public int clampViewPositionHorizontal(View child, int left, int dx) {
                 return getPositionX(left);
@@ -56,7 +57,6 @@ public class DragView extends RelativeLayout implements View.OnClickListener{
                             Math.abs(getPositionX(x)) > bgView.getMeasuredWidth() / 2 ? bgView.getMeasuredWidth() * dragMode : 0, 0);
                     postInvalidate();
                 }
-
             }
 
             @Override
@@ -133,7 +133,6 @@ public class DragView extends RelativeLayout implements View.OnClickListener{
             postInvalidate();
         }
     }
-
 
     @Override
     public void onClick(View v) {

@@ -1,5 +1,15 @@
 package com.example.a20182.monitor;
 
+/*
+ * Firstly I use the isStartAccessibilityService to juage if the AccessibilityService is open.
+ * If not it will jump to the system setting dialog.
+ * Then the loadAppInfomation function to load the all applications' information through PackageManager,
+ * including application's name, icon, package name and so on.
+ * The getSelectList function is to filter the selected application so as to display them in list.
+ * And then deny the storedata and readdata function to store and read data for the applications.
+ * At last to use a TimerTask to refresh the listview timely.
+ */
+
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.ComponentName;
 import android.content.Context;
@@ -8,7 +18,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.ListView;
@@ -30,17 +39,16 @@ public class MainActivity extends AppCompatActivity{
 
     private ListView mListView;
     private AppAdapter mAdapter;
-    private int[] mToolicon = {R.drawable.add,R.drawable.renew,R.drawable.auto,R.drawable.timer};
-    public static List<Application> mApps;
-    public static List<Application> AppList = new ArrayList<Application>();
-
-    public static List<StoreInfo> pStoreInfo = new ArrayList<StoreInfo>();
-
-    public static boolean flags_refresh = false;
 
     private Spinner spinner;
     private SpinnerAdapter SpAdapter;
 
+    private int[] mToolicon = {R.drawable.add,R.drawable.renew,R.drawable.auto,R.drawable.timer};
+
+    public static List<Application> mApps;
+    public static List<Application> AppList = new ArrayList<Application>();
+    public static List<StoreInfo> pStoreInfo = new ArrayList<StoreInfo>();
+    public static boolean flags_refresh = false;
 
     Timer timer0=new Timer();
     final TimerTask task0 = new TimerTask() {
@@ -208,13 +216,6 @@ public class MainActivity extends AppCompatActivity{
 
     public void btnSpinner(View view){
         spinner.performClick();
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-
-        storageData();
     }
 
     @Override

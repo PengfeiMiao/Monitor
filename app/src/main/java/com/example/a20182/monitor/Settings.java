@@ -1,5 +1,13 @@
 package com.example.a20182.monitor;
 
+/*
+ * The Settings activity ie used to set some values for the selected application
+ * which will be displayed in the list in MainActivity.
+ * I stipulate that the input for max-time should not be null or a large number.
+ * I use storageData function to store the data before the jump to
+ * make sure that the data will convey to main activity correctly
+ */
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +19,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Settings extends AppCompatActivity {
@@ -52,7 +59,6 @@ public class Settings extends AppCompatActivity {
             MainActivity.AppList.get(Select.curPosition).setLimiTime(maxtime);
             MainActivity.AppList.get(Select.curPosition).setTips(TipsText.getText().toString());
             MainActivity.AppList.get(Select.curPosition).setRuntime(0);
-
             storageData();
             startActivity(new Intent(Settings.this, MainActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));

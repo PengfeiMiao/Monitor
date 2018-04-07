@@ -1,16 +1,16 @@
 package com.example.a20182.monitor;
 
 /**
- * Created by 20182 on 2018/3/30.
+ * The Adapter for the ListView in Select activity
+ * Import the select_item layout into listview.
  */
+
 import java.util.List;
 import android.content.Context;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 

@@ -1,5 +1,10 @@
 package com.example.a20182.monitor;
 
+/*
+ *The Select activity is used to display the all application for selection.
+ * Override the onItemClick function for listview to jump to to Settings dialog.
+ */
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

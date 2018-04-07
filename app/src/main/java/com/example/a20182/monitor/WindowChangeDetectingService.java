@@ -1,16 +1,20 @@
 package com.example.a20182.monitor;
 
+/*
+ * A important class to judge the change of the running application at the top of the stack
+ * which use the AccessibilityService to recieve relative info.
+ * And then use a TimerTask to count the running time for the monitored application.
+ * The toTime function is to transform the int type into hh:mm:ss format.
+ */
+
 import android.accessibilityservice.AccessibilityService;
 import android.content.ComponentName;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
-
-import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.Toast;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,7 +41,6 @@ public class WindowChangeDetectingService extends AccessibilityService {
         }
     };
 
-
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
@@ -48,7 +51,6 @@ public class WindowChangeDetectingService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
 
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-
             ComponentName componentName = new ComponentName(
                     event.getPackageName().toString(),
                     event.getClassName().toString()
@@ -64,11 +66,10 @@ public class WindowChangeDetectingService extends AccessibilityService {
                         } else if (MainActivity.mApps.get(i).getIntent().getPackageName().equals(componentName.getPackageName())) {
                             MainActivity.mApps.get(i).setIsRun(true);
                             position = i;
-
+                            break;
                         } else if (i == MainActivity.mApps.size() - 1) {
                             position = -1;
                         }
-
                     }
                 }catch (NullPointerException e){}
             }

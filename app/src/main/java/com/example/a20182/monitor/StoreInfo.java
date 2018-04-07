@@ -1,5 +1,11 @@
 package com.example.a20182.monitor;
 
+/*
+ *The Class specially used for store the information in location
+ * Donnot directly use the Application Class because some variables cannot be transformed to
+ * json file(Drawable, ComponentName)
+ */
+
 public class StoreInfo {
     private String name;
     private boolean isRun;

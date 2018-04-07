@@ -1,7 +1,8 @@
 package com.example.a20182.monitor;
 
 /**
- * Created by 20182 on 2018/3/30.
+ * The Adapter for the ListView in MainActivity,
+ * Import the monitor_item layout into listview.
  */
 
 import java.util.List;

@@ -1,5 +1,10 @@
 package com.example.a20182.monitor;
 
+/*
+ * Package the Special Style for the Toast
+ * design the display location,content(image and text)
+ */
+
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;

@@ -1,11 +1,13 @@
 package com.example.a20182.monitor;
 
+/**
+ *The Class to discribe the application object,
+ * use which to record the information.
+ * Include some origin info and other new info used for the App Running.
+ */
+
 import android.content.ComponentName;
 import android.graphics.drawable.Drawable;
-
-/**
- * Created by 20182 on 2018/3/30.
- */
 
 public class Application {
     private String name;
