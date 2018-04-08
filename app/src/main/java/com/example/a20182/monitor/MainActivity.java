@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity{
     private SpinnerAdapter SpAdapter;
 
     private int[] mToolicon = {R.drawable.add,R.drawable.renew,R.drawable.auto,R.drawable.timer};
-    private String[] mStrList = {"add","clear","auto","time"};
+    private String[] mStrList = {"add","clear","auto","timer"};
 
     public static List<Application> mApps;
     public static List<Application> AppList = new ArrayList<Application>();
@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity{
         });
         */
         //if(flag_teach==0) {
+            setContentView(R.layout.activity_main);
             if (!isStartAccessibilityService(this, "monitor") && AppList.isEmpty()) {
                 Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 startActivity(intent);
