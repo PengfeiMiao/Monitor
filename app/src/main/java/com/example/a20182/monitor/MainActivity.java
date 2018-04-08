@@ -18,6 +18,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageView;
@@ -38,6 +39,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static java.lang.Thread.sleep;
+
 public class MainActivity extends AppCompatActivity{
 
     private ListView mListView;
@@ -53,7 +56,6 @@ public class MainActivity extends AppCompatActivity{
     public static List<Application> AppList = new ArrayList<Application>();
     public static List<StoreInfo> pStoreInfo = new ArrayList<StoreInfo>();
     public static boolean flags_refresh = false;
-    private int flag_teach = -1;
 
     Timer timer0=new Timer();
     final TimerTask task0 = new TimerTask() {
@@ -104,45 +106,30 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.step_teach);
-        /*
-        TextView tv_Next = findViewById(R.id.tv_next);
-        tv_Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(flag_teach==-1) {
-                    ImageView iv_step = findViewById(R.id.iv_teachstep);
-                    iv_step.setImageResource(R.drawable.teachstep1);
-                    flag_teach = 0;
-                }else
-                if(flag_teach==0) {
-                    setContentView(R.layout.activity_main);
-                }
-            }
-        });
-        */
-        //if(flag_teach==0) {
-            setContentView(R.layout.activity_main);
-            if (!isStartAccessibilityService(this, "monitor") && AppList.isEmpty()) {
-                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                startActivity(intent);
-            }
+        setContentView(R.layout.activity_main);
+        mListView = findViewById(R.id.lv_monitor);
 
-            mListView = findViewById(R.id.lv_monitor);
+        readData();
+        if (pStoreInfo.isEmpty()) {
+            startActivity(new Intent(MainActivity.this, Teaching.class));
+        }else
+        if (!isStartAccessibilityService(this, "monitor") ) {
+            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+            startActivity(intent);
+        }
 
-            if (AppList.isEmpty()) loadAppInfomation(this);
+        if (AppList.isEmpty()) loadAppInfomation(this);
 
-            readData();
-            if (!pStoreInfo.isEmpty()) AppList = infoToApp(pStoreInfo);
+        readData();
+        if (!pStoreInfo.isEmpty()) AppList = infoToApp(pStoreInfo);
 
-            mApps = getSelectList(AppList);
-            mAdapter = new AppAdapter(this, mApps);
-            timer0.schedule(task0, 0, 1000);
+        mApps = getSelectList(AppList);
+        mAdapter = new AppAdapter(this, mApps);
+        timer0.schedule(task0, 0, 1000);
 
-            spinner = findViewById(R.id.sp_tool);
-            SpAdapter = new SpinnerAdapter(this, mToolicon, mStrList);
-            spinner.setAdapter(SpAdapter);
-        //}
+        spinner = findViewById(R.id.sp_tool);
+        SpAdapter = new SpinnerAdapter(this, mToolicon, mStrList);
+        spinner.setAdapter(SpAdapter);
     }
 
     private void loadAppInfomation(Context context) {

@@ -34,7 +34,8 @@
         </activity>
         <activity android:name=".Settings" />
         <activity android:name=".Select" />
-        <activity android:name=".Teach_Step"></activity>
+        <activity android:name=".Teach_Step" />
+        <activity android:name=".Teaching"></activity>
     </application>
 
 </manifest>

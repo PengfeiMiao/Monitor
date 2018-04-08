@@ -11,6 +11,7 @@
         android:layout_height="444dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
+        android:largeHeap="true"
         app:srcCompat="@drawable/teachstep2" />
 
     <TextView
@@ -23,6 +24,7 @@
         android:text="NEXT>"
         android:textAlignment="center"
         android:textSize="20dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:onClick="btnNext"/>
 
 </LinearLayout>
