@@ -36,7 +36,7 @@ public class Settings extends AppCompatActivity {
 
         TipsText = findViewById(R.id.et_content);
         boolean temp = MainActivity.AppList.get(Select.curPosition).getTips().equals("");
-        TipsText.setText(temp?"Please have a rest!":MainActivity.AppList.get(Select.curPosition).getTips());
+        TipsText.setText(temp?"":MainActivity.AppList.get(Select.curPosition).getTips());
 
     }
 

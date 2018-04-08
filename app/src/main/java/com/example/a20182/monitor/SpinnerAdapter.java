@@ -12,18 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class SpinnerAdapter extends BaseAdapter {
     private int[] mList;
+    private String[] mStrList;
     private Context mContext;
     private LayoutInflater inflater;
     public static int flags_position = -1;
     public static boolean flags_auto = false;
     public static boolean flags_timer = false;
 
-    public SpinnerAdapter(Context pContext, int[] pList) {
+    public SpinnerAdapter(Context pContext, int[] pList, String[] pStrList) {
         this.mContext = pContext;
         this.mList = pList;
+        this.mStrList = pStrList;
         inflater = (LayoutInflater) pContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -49,12 +52,13 @@ public class SpinnerAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.spinner_item, null);
             holder.icon = (ImageView) convertView.findViewById(R.id.iv_tool);
-
+            holder.str = (TextView) convertView.findViewById(R.id.tv_tool);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.icon.setImageResource(mList[position]);
+        holder.str.setText(mStrList[position]);
 
         final ImageView iv = convertView.findViewById(R.id.iv_tool);
         iv.setOnClickListener(new View.OnClickListener(){
@@ -93,5 +97,6 @@ public class SpinnerAdapter extends BaseAdapter {
     }
     class ViewHolder {
         ImageView icon;
+        TextView str;
     }
 }
